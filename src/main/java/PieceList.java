@@ -1,11 +1,13 @@
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PieceList {
 
     private ArrayList<ChessPiece> piecelist;
 
+    //constructor loads from file
     public PieceList()throws IOException {
         PieceLoader loader = new PieceLoader();
         piecelist = loader.loadPieces();
@@ -37,6 +39,8 @@ public class PieceList {
                 biglist.add(piece.getName());
             }
         }
+        //sorts alphabetically?
+        Collections.sort(biglist);
         return biglist;
     }
 

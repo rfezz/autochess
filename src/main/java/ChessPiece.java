@@ -1,6 +1,8 @@
+import java.io.Serializable;
 
+public class ChessPiece implements Serializable {
 
-public class ChessPiece {
+    private long serialVersionUID = 1;
 
     private String name;
     private String species1;

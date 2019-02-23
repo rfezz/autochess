@@ -20,14 +20,19 @@ public class test9fx extends Application {
     public static final String XLSX_FILE_PATH = "C:\\Java Data\\AutoChess.xlsx";
     public static PieceList autochess;
 
+
+    private final boolean needToSave = false;
+
+    //this is is where all pieces come from
     static {
         try {
             autochess = new PieceList();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         finally {
-
+            System.out.println("first");
         }
     }
 
@@ -36,11 +41,14 @@ public class test9fx extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Workbook workbook = WorkbookFactory.create(new File(XLSX_FILE_PATH));
-
-        Sheet sheet = workbook.getSheetAt(0);
-
-        DataFormatter dataFormatter = new DataFormatter();
+//        Workbook workbook = WorkbookFactory.create(new File(XLSX_FILE_PATH));
+//
+//        Sheet sheet = workbook.getSheetAt(0);
+//
+//        DataFormatter dataFormatter = new DataFormatter();
+        if (needToSave){
+            saveToFile.saveFile();
+        }
 
         Parent root = FXMLLoader.load(getClass().getResource("test9fxstyle.fxml"));
 

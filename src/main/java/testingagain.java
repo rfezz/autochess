@@ -209,6 +209,7 @@ public class testingagain {
         updateView();
     }
 
+    //initializes the dialog pane
     @FXML
     public void showNewItemDialog(int cost){
         selectedCost = cost;
@@ -227,13 +228,14 @@ public class testingagain {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
-
         //if ok is pressed, update
         if(((Optional) result).isPresent() && result.get() == ButtonType.OK){
             //adds selected unit to static list of chess pieces
             dialogController controller = fxmlLoader.getController();
-            controller.processResults();
-            updateView();
+            if (controller.processResults()) {
+//                System.out.println("XXXXXX");
+                updateView();
+            }
 
         }
         else {
@@ -243,17 +245,19 @@ public class testingagain {
 
     }
 
+    //starts the ui update thread
     public Boolean updateView(){
         new Thread(task).start();
         return true;
     }
-
+    //all of the methods that are updated each time something changes
     Runnable task = () -> Platform.runLater(() -> {
         Boolean asdf = setBoardView(boardView);
         Boolean qwer = setBoardView(benchView);
         Boolean zxcv = updateTextArea();
     });
 
+    //updates the lists
     public Boolean setBoardView(ListView selectedView) {
         //clears, adds, updates
 
@@ -281,6 +285,7 @@ public class testingagain {
         }
     }
 
+    //removes selected item from list and updates, works for both lists
     @FXML
     private void removeFromList(){
 
@@ -318,6 +323,7 @@ public class testingagain {
 
     }
 
+    //swaps from board<->bench
     @FXML
     private void swapFromLists(){
 
@@ -351,11 +357,12 @@ public class testingagain {
 
     }
 
-    //so the dialog can load the correct list from the button
+    //static int of button pressed so dialog can load the correct list
     public static int getSelectedCost(){
         return selectedCost;
     }
-    //static list that dialogbox can update
+
+    //static list of chess pieces that dialogbox can update
 
     public static boolean updateBoardPieces(ChessPiece unit){
         if (boardPieces.size()>9){
@@ -373,6 +380,7 @@ public class testingagain {
         return true;
     }
 
+    //&444 makes it so only one item is able to be selected between both list views
     @FXML
     private void test344() {
         if (boardView.getSelectionModel().getSelectedItems().size() > 0) {
@@ -394,6 +402,7 @@ public class testingagain {
 //        }
     }
 
+    //handles the info thats posted
     private boolean updateTextArea(){
 
         //clear the string
@@ -402,7 +411,6 @@ public class testingagain {
         //remove duplicates
         Set<ChessPiece> set = new LinkedHashSet<>();
         set.addAll(boardPieces);
-
 
         resetCounters();
 
@@ -432,6 +440,7 @@ public class testingagain {
 
     }
 
+    //putting each type of input into a mold
     private String textGenerator(int unitCount, int firstBonus, int secondBonus, int thirdBonus){
 
         boolean thirdB=false;
@@ -605,7 +614,7 @@ public class testingagain {
 
         }
     }
-
+    //where the stuff that actually goes on the screen is made
     public String printStuff(){
         StringBuilder sbArea = new StringBuilder();
         if (beastCount > 0) {sbArea.append("beastCount =");

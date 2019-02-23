@@ -9,6 +9,9 @@ public class PieceLoader {
 
     private ArrayList<ChessPiece> piecelist;
     private ArrayList<String> memelist;
+
+    //true = load from excel, false = load from dat file
+    private boolean loadFromExcel = false;
     private DataFormatter dataFormatter = new DataFormatter();
 
     public PieceLoader() throws IOException {
@@ -18,7 +21,8 @@ public class PieceLoader {
 
     public ArrayList<ChessPiece> loadPieces() throws IOException {
 
-        Workbook workbook = WorkbookFactory.create(new File(test9fx.XLSX_FILE_PATH));
+        if (loadFromExcel){
+            Workbook workbook = WorkbookFactory.create(new File(test9fx.XLSX_FILE_PATH));
 
         Sheet sheet = workbook.getSheetAt(0);
 
@@ -37,15 +41,14 @@ public class PieceLoader {
 
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-                if(!memelist.add(dataFormatter.formatCellValue(cell))){
+                if (!memelist.add(dataFormatter.formatCellValue(cell))) {
                     System.out.println("Was not able to add");
                 }
             }
-            if(memelist.size()==4) {
+            if (memelist.size() == 4) {
                 piecelist.add(new ChessPiece(memelist.get(0), memelist.get(1), "",
                         memelist.get(2), Integer.parseInt(memelist.get(3))));
-            }
-            else{
+            } else {
                 piecelist.add(new ChessPiece(memelist.get(0), memelist.get(1),
                         memelist.get(2), memelist.get(3), Integer.parseInt(memelist.get(4))));
             }
@@ -54,6 +57,17 @@ public class PieceLoader {
         }
 
         workbook.close();
+    }
+        else{
+            try {
+                piecelist = loadFromFile.loadFile();
+            } catch (ClassNotFoundException e){
+                System.out.println("Cant find class");
+            }
+        }
+
+
+
         return piecelist;
     }
 
