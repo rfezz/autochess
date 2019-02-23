@@ -256,20 +256,26 @@ public class testingagain {
 
     //starts the ui update thread
     public Boolean updateView(){
+        System.out.println("10");
         new Thread(task).start();
+        System.out.println("11");
         return true;
     }
     //all of the methods that are updated each time something changes
     Runnable task = () -> Platform.runLater(() -> {
+        System.out.println("12");
         Boolean asdf = setBoardView(boardView);
+        System.out.println("13");
         Boolean qwer = setBoardView(benchView);
+        System.out.println("14");
         Boolean zxcv = updateTextArea();
+        System.out.println("15");
     });
 
     //updates the lists
     public Boolean setBoardView(ListView selectedView) {
         //clears, adds, updates
-
+        System.out.println("16");
         if (selectedView.getId().equals("boardView")) {
 
             boardViewStrings.clear();
@@ -337,19 +343,27 @@ public class testingagain {
     private void swapFromLists(){
 
         if (boardView.getSelectionModel().getSelectedItems().size() > 0) {
+            System.out.println("1");
             if (benchPieces.size() < 8) {
+                System.out.println("2");
                 String selected = (String) boardView.getSelectionModel().getSelectedItem();
+                System.out.println("3");
                 for (ChessPiece unit : boardPieces) {
+                    System.out.println("4");
                     if (selected.equals(unit.getName())) {
+                        System.out.println("5");
                         boardPieces.remove(unit);
+                        System.out.println("6");
                         benchPieces.add(unit);
+                        System.out.println("7");
+
                         break;
                     }
                 }
 
             }
         }
-        if (benchView.getSelectionModel().getSelectedItems().size() > 0) {
+        else if (benchView.getSelectionModel().getSelectedItems().size() > 0) {
             if (boardPieces.size() < 10) {
                 String selected = (String) benchView.getSelectionModel().getSelectedItem();
                 for (ChessPiece unit : benchPieces) {
@@ -361,7 +375,9 @@ public class testingagain {
                 }
             }
         }
+        System.out.println("8");
         updateView();
+        System.out.println("9");
 
 
     }
@@ -414,12 +430,14 @@ public class testingagain {
     //handles the info thats posted
     private boolean updateTextArea(){
 
+        System.out.println("17");
         //clear the string
         sbArea.setLength(0);
 
         //remove duplicates
         Set<ChessPiece> set = new LinkedHashSet<>();
         set.addAll(boardPieces);
+
 
         resetCounters();
 
@@ -463,14 +481,17 @@ public class testingagain {
 //            System.out.println("bonus list size =" + bonusClassList.size());
 
             //equalizes list
-            while(! (intlBonusClassList.size() == bonusClassList.size())){
-            for (int x = 0; x < intlBonusClassList.size(); x++) {
-                if (!intlBonusClassList.get(x).equals(bonusClassList.get(x))) {
-                    intlBonusClassList.add(x, bonusClassList.get(x));
-                    intlBonusList.add(x,0);
+            //also crashes my stuff because its coded wrong
+            for (int z = 0; z<20; z++){
+                    for (int x = 0; x < intlBonusClassList.size(); x++) {
+                        if (!intlBonusClassList.get(x).equals(bonusClassList.get(x))) {
+                            intlBonusClassList.add(x, bonusClassList.get(x));
+                            intlBonusList.add(x, 0);
+                        }
+                    }
                 }
-            }
-            }
+
+            System.out.println("19");
 
 //            System.out.println("\nintl list size = " + intlBonusList.size());
 //            System.out.println("bonus list size =" + bonusList.size());
