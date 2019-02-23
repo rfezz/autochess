@@ -66,6 +66,8 @@ public class testingagain {
     //for printing stuff
     StringBuilder sbArea = new StringBuilder();
 
+    StringBuilder sb = new StringBuilder();
+
 
 
     @FXML
@@ -83,29 +85,99 @@ public class testingagain {
     private BorderPane mainBorderPane;
 
     private int beastCount = 0;
+    private final int beastBonus1 = 2;
+    private final int beastBonus2 = 4;
+    private final int beastBonus3 = 6;
     private int demonCount = 0;
+    private final int demonBonus1 = 1;
+    private final int demonBonus2 = 0;
+    private final int demonBonus3 = 0;
     private int dwarfCount=0;
+    private final int dwarfBonus1 = 1;
+    private final int dwarfBonus2 = 0;
+    private final int dwarfBonus3 = 0;
     private int dragonCount=0;
+    private final int dragonBonus1 = 3;
+    private final int dragonBonus2 = 0;
+    private final int dragonBonus3 = 0;
     private int elementalsCount=0;
+    private final int elementalsBonus1 = 2;
+    private final int elementalsBonus2 = 4;
+    private final int elementalsBonus3 = 0;
     private int elfCount=0;
+    private final int elfBonus1 = 3;
+    private final int elfBonus2 = 6;
+    private final int elfBonus3 = 0;
+
     private int goblinCount=0;
+    private final int goblinBonus1 = 3;
+    private final int goblinBonus2 = 6;
+    private final int goblinBonus3 = 0;
     private int humanCount=0;
+    private final int humanBonus1 = 3;
+    private final int humanBonus2 = 6;
+    private final int humanBonus3 = 0;
     private int nagaCount=0;
+    private final int nagaBonus1 = 2;
+    private final int nagaBonus2 = 4;
+    private final int nagaBonus3 = 0;
     private int ogreCount=0;
+    private final int ogreBonus1 = 1;
+    private final int ogreBonus2 = 0;
+    private final int ogreBonus3 = 0;
     private int orcCount=0;
+    private final int orcBonus1 = 2;
+    private final int orcBonus2 = 4;
+    private final int orcBonus3 = 0;
     private int trollCount=0;
+    private final int trollBonus1 = 2;
+    private final int trollBonus2 = 4;
+    private final int trollBonus3 = 0;
     private int undeadCount=0;
+    private final int undeadBonus1 = 2;
+    private final int undeadBonus2 = 4;
+    private final int undeadBonus3 = 0;
 
     private int assassinCount=0;
+    private final int assassinBonus1 = 3;
+    private final int assassinBonus2 = 6;
+    private final int assassinBonus3 = 0;
     private int demonhunterCount=0;
+    private final int demonhunterBonus1 = 1;
+    private final int demonhunterBonus2 = 2;
+    private final int demonhunterBonus3 = 0;
     private int druidCount=0;
+    private final int druidBonus1 = 2;
+    private final int druidBonus2 = 4;
+    private final int druidBonus3 = 0;
     private int hunterCount=0;
+    private final int hunterBonus1 = 3;
+    private final int hunterBonus2 = 6;
+    private final int hunterBonus3 = 0;
     private int knightCount=0;
+    private final int knightBonus1 = 2;
+    private final int knightBonus2 = 4;
+    private final int knightBonus3 = 6;
     private int mageCount=0;
+    private final int mageBonus1 = 3;
+    private final int mageBonus2 = 6;
+    private final int mageBonus3 = 0;
     private int mechCount=0;
+    private final int mechBonus1 = 2;
+    private final int mechBonus2 = 4;
+    private final int mechBonus3 = 0;
     private int shamanCount=0;
+    private final int shamanBonus1 = 2;
+    private final int shamanBonus2 = 0;
+    private final int shamanBonus3 = 0;
     private int warlockCount=0;
+    private final int warlockBonus1 = 3;
+    private final int warlockBonus2 = 6;
+    private final int warlockBonus3 = 0;
     private int warriorCount=0;
+    private final int warriorBonus1 = 3;
+    private final int warriorBonus2 = 6;
+    private final int warriorBonus3 = 9;
 
     public testingagain() throws IOException {
     }
@@ -276,6 +348,7 @@ public class testingagain {
         }
         updateView();
 
+
     }
 
     //so the dialog can load the correct list from the button
@@ -331,6 +404,91 @@ public class testingagain {
         set.addAll(boardPieces);
 
 
+        resetCounters();
+
+        getUnitCount(set);
+
+        sbArea.append("BOARD COUNT:\n");
+
+        sbArea.append(printStuff());
+
+        if (sbArea.length()>0) sbArea.append("***************************\n");
+
+        if (benchPieces.size()>0) {
+            sbArea.append("BENCH COUNT:\n");
+            set.addAll(benchPieces);
+            set.removeAll(boardPieces);
+            resetCounters();
+            getUnitCount(set);
+            //testing
+            sbArea.append(printStuff());
+        }
+
+
+        sickArea.setText(sbArea.toString());
+
+
+        return true;
+
+    }
+
+    private String textGenerator(int unitCount, int firstBonus, int secondBonus, int thirdBonus){
+
+        boolean thirdB=false;
+        boolean secondB=false;
+        boolean firstB=false;
+        if (unitCount>thirdBonus-1 && thirdBonus!=0){
+            thirdB=true;
+        }
+        else if (unitCount>secondBonus-1 && secondBonus!=0){
+            secondB=true;
+        }
+        else if (unitCount>firstBonus-1){
+            firstB=true;
+        }
+        sb.setLength(0);
+
+        sb.append(unitCount);
+
+        if(thirdBonus>0){
+            //HANDLES THIRD BONUS
+            if (thirdB) {
+                sb.append("/"+ thirdBonus + " **" + thirdBonus + " UNIT BONUS**\n");
+                return sb.toString();
+            }
+
+        }
+
+        //HANDLES SECOND BONUS
+        if(thirdBonus>0 && secondBonus>0){
+            if (secondB) {
+                sb.append("/"+ thirdBonus + " **" + secondBonus + " UNIT BONUS**\n");
+                return sb.toString();
+            }
+        }
+        else if(secondB){
+            sb.append("/"+ secondBonus + " **" + secondBonus + " UNIT BONUS**\n");
+            return sb.toString();
+        }
+
+        //HANDLES FIRST BONUS
+        if(secondBonus>0 && firstB){
+            sb.append("/"+ secondBonus + " **" + firstBonus + " UNIT BONUS**\n");
+            return sb.toString();
+        }
+        else if (firstB){
+            sb.append("/"+ firstBonus + " **" + firstBonus + " UNIT BONUS**\n");
+            return sb.toString();
+        }
+
+        sb.append("/" + firstBonus + "\n");
+
+        return sb.toString();
+
+
+    }
+
+    private void resetCounters(){
         beastCount = 0;
         demonCount = 0;
         dwarfCount=0;
@@ -344,7 +502,6 @@ public class testingagain {
         orcCount=0;
         trollCount=0;
         undeadCount=0;
-
         assassinCount=0;
         demonhunterCount=0;
         druidCount=0;
@@ -355,7 +512,9 @@ public class testingagain {
         shamanCount=0;
         warlockCount=0;
         warriorCount=0;
+    }
 
+    public void getUnitCount(Set<ChessPiece> set){
         for(ChessPiece unit: set){
 //            sbArea.append(unit.getSpecies1());
 //            sbArea.append(unit.getSpecies2());
@@ -422,7 +581,7 @@ public class testingagain {
                     hunterCount++;
                     break;
                 case "Knight":
-                       knightCount++;
+                    knightCount++;
                     break;
                 case "Mage":
                     mageCount++;
@@ -444,129 +603,83 @@ public class testingagain {
             }
 
 
+        }
+    }
 
+    public String printStuff(){
+        StringBuilder sbArea = new StringBuilder();
+        if (beastCount > 0) {sbArea.append("beastCount =");
+            sbArea.append(textGenerator(beastCount, beastBonus1,beastBonus2,beastBonus3));
+        }
+        if (demonCount > 0) {sbArea.append("demonCount =");
+            sbArea.append(textGenerator(demonCount, demonBonus1,demonBonus2,demonBonus3));
+        }
+        if (dwarfCount > 0) {sbArea.append("dwarfCount=");
+            sbArea.append(textGenerator(dwarfCount, dwarfBonus1,dwarfBonus2,dwarfBonus3));
+        }
+        if (dragonCount > 0) {sbArea.append("dragonCount=");
+            sbArea.append(textGenerator(dragonCount,dragonBonus1,dragonBonus2,dragonBonus3));
+        }
+        if (elementalsCount > 0) {sbArea.append("elementalsCount=");
+            sbArea.append(textGenerator(elementalsCount,elementalsBonus1,elementalsBonus2,elementalsBonus3));
+        }
+        if (elfCount > 0) {sbArea.append("elfCount=");
+            sbArea.append(textGenerator(elfCount,elfBonus1,elfBonus2,elfBonus3));
+        }
+        if (goblinCount > 0) {sbArea.append("goblinCount=");
+            sbArea.append(textGenerator(goblinCount,goblinBonus1,goblinBonus2,goblinBonus3));
+        }
+        if (humanCount > 0) {sbArea.append("humanCount=");
+            sbArea.append(textGenerator(humanCount,humanBonus1,humanBonus2,humanBonus3));
+        }
+        if (nagaCount > 0) {sbArea.append("nagaCount=");
+            sbArea.append(textGenerator(nagaCount,nagaBonus1,nagaBonus2,nagaBonus3));
+        }
+        if (ogreCount > 0) {sbArea.append("ogreCount=");
+            sbArea.append(textGenerator(ogreCount,ogreBonus1,ogreBonus2,ogreBonus3));
+        }
+        if (orcCount > 0) {sbArea.append("orcCount=");
+            sbArea.append(textGenerator(orcCount,orcBonus1,orcBonus2,orcBonus3));
+        }
+        if (trollCount > 0) {sbArea.append("trollCount=");
+            sbArea.append(textGenerator(trollCount,trollBonus1,trollBonus2,trollBonus3));
+        }
+        if (undeadCount > 0) {sbArea.append("undeadCount=");
+            sbArea.append(textGenerator(undeadCount,undeadBonus1,undeadBonus2,undeadBonus3));
+        }
+//        if (sbArea.length()>0) sbArea.append("***************************\n");
 
-
-
-
-
+        if (assassinCount > 0) {sbArea.append("assassinCount =");
+            sbArea.append(textGenerator(assassinCount,assassinBonus1,assassinBonus2,assassinBonus3));
         }
-        if (beastCount > 0) {sbArea.append("beastCount =" + beastCount);
-            if (beastCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (beastCount>3) sbArea.append("/6  **4 UNIT BONUS**\n");
-            else if (beastCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
+        if (demonhunterCount > 0) {sbArea.append("demonhunterCount =");
+            sbArea.append(textGenerator(demonhunterCount,demonhunterBonus1,demonhunterBonus2,demonhunterBonus3));
         }
-        if (demonCount > 0) {sbArea.append("demonCount =" + demonCount);
-            if (demonCount>1 && demonhunterCount<2) sbArea.append("/1  **TOO MANY DEMONS**\n");
-            else {sbArea.append("/1 **1 UNIT BONUS**\n");}
+        if (druidCount > 0) {sbArea.append("druidCount =");
+            sbArea.append(textGenerator(druidCount,druidBonus1,druidBonus2,druidBonus3));
         }
-        if (dwarfCount > 0) {sbArea.append("dwarfCount=" + dwarfCount);
-            sbArea.append("/1  **1 UNIT BONUS**\n");
+        if (hunterCount > 0) {sbArea.append("hunterCount =");
+            sbArea.append(textGenerator(hunterCount,hunterBonus1,hunterBonus2,hunterBonus3));
         }
-        if (dragonCount > 0) {sbArea.append("dragonCount=" + dragonCount);
-            if (dragonCount>2) sbArea.append("/3  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}
+        if (knightCount > 0) {sbArea.append("knightCount =");
+            sbArea.append(textGenerator(knightCount,knightBonus1,knightBonus2,knightBonus3));
         }
-        if (elementalsCount > 0) {sbArea.append("elementalsCount=" + elementalsCount);
-            if (elementalsCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (elementalsCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
+        if (mageCount > 0) {sbArea.append("mageCount =");
+            sbArea.append(textGenerator(mageCount,mageBonus1,mageBonus2,mageBonus3));
         }
-        if (elfCount > 0) {sbArea.append("elfCount=" + elfCount);
-            if (elfCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (elfCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}
+        if (mechCount > 0) {sbArea.append("mechCount =");
+            sbArea.append(textGenerator(mechCount,mechBonus1,mechBonus2,mechBonus3));
         }
-        if (goblinCount > 0) {sbArea.append("goblinCount=" + goblinCount);
-            if (goblinCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (goblinCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}
+        if (shamanCount > 0) {sbArea.append("shamanCount =");
+            sbArea.append(textGenerator(shamanCount,shamanBonus1,shamanBonus2,shamanBonus3));
         }
-        if (humanCount > 0) {sbArea.append("humanCount=" + humanCount);
-            if (humanCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (humanCount>3) sbArea.append("/6  **4 UNIT BONUS**\n");
-            else if (humanCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
+        if (warlockCount > 0) {sbArea.append("warlockCount =");
+            sbArea.append(textGenerator(warlockCount, warlockBonus1,warlockBonus2,warlockBonus3));
         }
-        if (nagaCount > 0) {sbArea.append("nagaCount=" + nagaCount);
-            if (nagaCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (nagaCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
+        if (warriorCount > 0) { sbArea.append("warriorCount =");
+            sbArea.append(textGenerator(warriorCount, warriorBonus1,warriorBonus2,warriorBonus3));
         }
-        if (ogreCount > 0) {sbArea.append("ogreCount=" + ogreCount);
-            sbArea.append("/1  **1 UNIT BONUS**\n");
-        }
-        if (orcCount > 0) {sbArea.append("orcCount=" + orcCount);
-             if (orcCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (orcCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
-        }
-        if (trollCount > 0) {sbArea.append("trollCount=" + trollCount);
-            if (trollCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (trollCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
-        }
-        if (undeadCount > 0) {sbArea.append("undeadCount=" + undeadCount);
-            if (undeadCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (undeadCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
-        }
-        if (sbArea.length()>0) sbArea.append("***************************\n");
-
-        if (assassinCount > 0) {sbArea.append("assassinCount= "+ assassinCount);
-            if (assassinCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (assassinCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}
-        }
-        if (demonhunterCount > 0) {sbArea.append("demonhunterCount =" + demonhunterCount);
-            if (demonhunterCount>1) sbArea.append("/2  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2 **1 UNIT BONUS**\n");}
-        }
-        if (druidCount > 0) {sbArea.append("druidCount =" + druidCount);
-            if (druidCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (druidCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
-        }
-        if (hunterCount > 0) {sbArea.append("hunterCount =" + hunterCount);
-            if (hunterCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (hunterCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}
-        }
-        if (knightCount > 0) {sbArea.append("knightCount =" + knightCount);
-            if (knightCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (knightCount>3) sbArea.append("/6  **4 UNIT BONUS**\n");
-            else if (knightCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}
-        }
-        if (mageCount > 0) {sbArea.append("mageCount =" + mageCount);
-            if (mageCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (mageCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}}
-        if (mechCount > 0) {sbArea.append("mechCount =" + mechCount);
-            if (mechCount>3) sbArea.append("/4  **4 UNIT BONUS**\n");
-            else if (mechCount>1) sbArea.append("/4  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}}
-        if (shamanCount > 0) {sbArea.append("shamanCount =" + shamanCount);
-            if (shamanCount>1) sbArea.append("/2  **2 UNIT BONUS**\n");
-            else {sbArea.append("/2\n");}}
-        if (warlockCount > 0) {sbArea.append("warlockCount =" + warlockCount);
-            if (warlockCount>5) sbArea.append("/6  **6 UNIT BONUS**\n");
-            else if (warlockCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}}
-        if (warriorCount > 0) {sbArea.append("warriorCount =" + warriorCount);
-            if (warriorCount>8) sbArea.append("/9  **9 UNIT BONUS**\n");
-            else if (warriorCount>5) sbArea.append("/9  **6 UNIT BONUS**\n");
-            else if (warriorCount>2) sbArea.append("/6  **3 UNIT BONUS**\n");
-            else {sbArea.append("/3\n");}}
-
-
-
-        sickArea.setText(sbArea.toString());
-
-
-        return true;
-
+        return sbArea.toString();
     }
 
 

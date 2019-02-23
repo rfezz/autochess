@@ -17,9 +17,13 @@ public class dialogController {
 
 
     public void processResults(){
-        String unitName = optionList.getSelectionModel().getSelectedItem();
-        testingagain.updateBoardPieces(test9fx.autochess.getPiece(unitName));
-
+        try {
+            String unitName = optionList.getSelectionModel().getSelectedItem();
+            testingagain.updateBoardPieces(test9fx.autochess.getPiece(unitName));
+        } catch (NullPointerException e){
+            //i could disable the ok button if nothing pressed.. somehow
+            System.err.println("need to choose something before pressing ok");
+        }
     }
 
     @FXML
