@@ -21,12 +21,12 @@ public class loadFromFile {
         while(!eof){
             try{
                 ChessPiece unit = (ChessPiece) try3.readObject();
-                System.out.println("Read piece " + unit.getName());
+//                System.out.println("Read piece " + unit.getName());
                 piecelist.add(unit);
 
             } catch (EOFException e){
                 eof = true;
-                System.out.println("done?");
+//                System.out.println("done?");
             }
         }
 

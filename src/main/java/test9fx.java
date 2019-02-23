@@ -32,7 +32,7 @@ public class test9fx extends Application {
             e.printStackTrace();
         }
         finally {
-            System.out.println("first");
+//            System.out.println("first");
         }
     }
 

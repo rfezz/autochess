@@ -20,6 +20,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Integer.getInteger;
+
 
 public class testingagain {
 
@@ -59,6 +61,13 @@ public class testingagain {
     //turning this list into an observable list
 
     private ObservableList<String> benchViewList;
+
+    //memes
+    private ArrayList<Integer> bonusList = new ArrayList<>();
+    private ArrayList<Integer> intlBonusList = new ArrayList<>();
+    private ArrayList<String>  bonusClassList = new ArrayList<>();
+    private ArrayList<String> intlBonusClassList = new ArrayList<>();
+    private ArrayList<String> bonusClasses = new ArrayList<>();
 
 
     @FXML
@@ -416,20 +425,102 @@ public class testingagain {
 
         getUnitCount(set);
 
-        sbArea.append("BOARD COUNT:\n");
+        sbArea.append("***************************\n");
+        sbArea.append("BOARD COUNT:\n\n");
 
         sbArea.append(printStuff());
 
-        if (sbArea.length()>0) sbArea.append("***************************\n");
+//        if (benchPieces.size()>0)
+            sbArea.append("***************************\n");
 
         if (benchPieces.size()>0) {
-            sbArea.append("BENCH COUNT:\n");
+
+            sbArea.append("BENCH UNITS:\n");
+
+            //memes
+            intlBonusList.clear();
+            intlBonusList.addAll(bonusList);
+            intlBonusClassList.clear();
+            intlBonusClassList.addAll(bonusClassList);
+
+            bonusList.clear();
+            bonusClassList.clear();
+            //all pieces
             set.addAll(benchPieces);
-            set.removeAll(boardPieces);
+            //all pieces no dupes
+            Set<ChessPiece> set2 = new LinkedHashSet<>(set);
             resetCounters();
             getUnitCount(set);
+            //need to run this method to populate bonus list
+            printStuff();
+
+            //compare lists
+            boolean availableBonus = false;
+
+//            System.out.println("\nintl list size = " + intlBonusList.size());
+//            System.out.println("bonus list size =" + bonusList.size());
+//            System.out.println("intl list size = " + intlBonusClassList.size());
+//            System.out.println("bonus list size =" + bonusClassList.size());
+
+            //equalizes list
+            while(! (intlBonusClassList.size() == bonusClassList.size())){
+            for (int x = 0; x < intlBonusClassList.size(); x++) {
+                if (!intlBonusClassList.get(x).equals(bonusClassList.get(x))) {
+                    intlBonusClassList.add(x, bonusClassList.get(x));
+                    intlBonusList.add(x,0);
+                }
+            }
+            }
+
+//            System.out.println("\nintl list size = " + intlBonusList.size());
+//            System.out.println("bonus list size =" + bonusList.size());
+//            System.out.println("intl list size = " + intlBonusClassList.size());
+//            System.out.println("bonus list size =" + bonusClassList.size());
+//
+//            for(int x = 0; x<intlBonusClassList.size(); x++){
+//
+//                System.out.print(intlBonusClassList.get(x));
+//                System.out.println(bonusClassList.get(x));
+//            }
+            bonusClasses.clear();
+
+            for (int x =0; x<intlBonusList.size(); x++){
+                if (intlBonusList.get(x) < bonusList.get(x)){
+                    if(intlBonusClassList.get(x).equals(bonusClassList.get(x))) {
+                        bonusClasses.add(intlBonusClassList.get(x));
+                        availableBonus = true;
+                    }
+                }
+            }
+
+            //memes
+            //intlBonusList = bonusList;
+            bonusList.clear();
+            bonusClassList.clear();
+
+            set2.removeAll(boardPieces);
+            resetCounters();
+            getUnitCount(set2);
             //testing
-            sbArea.append(printStuff());
+
+            for(ChessPiece unit : set2){
+                sbArea.append(unit.getName() + ": " + unit.getSpecies1());
+                if (unit.getSpecies2().length() > 0 ){
+                    sbArea.append(", " + unit.getSpecies2());
+                }
+                sbArea.append(", " + unit.getJob() + "\n");
+
+            }
+            if (availableBonus){
+                sbArea.append("***************************\n");
+                sbArea.append("BONUS FROM BENCH AVAILABLE: \n");
+                for (String y : bonusClasses){
+                    sbArea.append(y);
+                    sbArea.append("\n");
+                }
+            }
+            sbArea.append("***************************\n");
+//            sbArea.append(printStuff());
         }
 
 
@@ -463,6 +554,7 @@ public class testingagain {
             //HANDLES THIRD BONUS
             if (thirdB) {
                 sb.append("/"+ thirdBonus + " **" + thirdBonus + " UNIT BONUS**\n");
+                bonusList.add(3);
                 return sb.toString();
             }
 
@@ -472,25 +564,30 @@ public class testingagain {
         if(thirdBonus>0 && secondBonus>0){
             if (secondB) {
                 sb.append("/"+ thirdBonus + " **" + secondBonus + " UNIT BONUS**\n");
+                bonusList.add(2);
                 return sb.toString();
             }
         }
         else if(secondB){
             sb.append("/"+ secondBonus + " **" + secondBonus + " UNIT BONUS**\n");
+            bonusList.add(2);
             return sb.toString();
         }
 
         //HANDLES FIRST BONUS
         if(secondBonus>0 && firstB){
             sb.append("/"+ secondBonus + " **" + firstBonus + " UNIT BONUS**\n");
+            bonusList.add(1);
             return sb.toString();
         }
         else if (firstB){
             sb.append("/"+ firstBonus + " **" + firstBonus + " UNIT BONUS**\n");
+            bonusList.add(1);
             return sb.toString();
         }
 
         sb.append("/" + firstBonus + "\n");
+        bonusList.add(0);
 
         return sb.toString();
 
@@ -616,77 +713,104 @@ public class testingagain {
     }
     //where the stuff that actually goes on the screen is made
     public String printStuff(){
+        //meme?
+        bonusList.clear();
+        bonusClassList.clear();
+
         StringBuilder sbArea = new StringBuilder();
-        if (beastCount > 0) {sbArea.append("beastCount =");
+        if (beastCount > 0) {sbArea.append("beasts=");
             sbArea.append(textGenerator(beastCount, beastBonus1,beastBonus2,beastBonus3));
+            bonusClassList.add("Beasts");
         }
-        if (demonCount > 0) {sbArea.append("demonCount =");
+        if (demonCount > 0) {sbArea.append("demons=");
             sbArea.append(textGenerator(demonCount, demonBonus1,demonBonus2,demonBonus3));
+            bonusClassList.add("Demons");
         }
-        if (dwarfCount > 0) {sbArea.append("dwarfCount=");
+        if (dwarfCount > 0) {sbArea.append("dwarfs=");
             sbArea.append(textGenerator(dwarfCount, dwarfBonus1,dwarfBonus2,dwarfBonus3));
+            bonusClassList.add("Dwarfs");
         }
-        if (dragonCount > 0) {sbArea.append("dragonCount=");
+        if (dragonCount > 0) {sbArea.append("dragons=");
             sbArea.append(textGenerator(dragonCount,dragonBonus1,dragonBonus2,dragonBonus3));
+            bonusClassList.add("Dragons");
         }
-        if (elementalsCount > 0) {sbArea.append("elementalsCount=");
+        if (elementalsCount > 0) {sbArea.append("elementals=");
             sbArea.append(textGenerator(elementalsCount,elementalsBonus1,elementalsBonus2,elementalsBonus3));
+            bonusClassList.add("Elementals");
         }
-        if (elfCount > 0) {sbArea.append("elfCount=");
+        if (elfCount > 0) {sbArea.append("elves=");
             sbArea.append(textGenerator(elfCount,elfBonus1,elfBonus2,elfBonus3));
+            bonusClassList.add("Elves");
         }
-        if (goblinCount > 0) {sbArea.append("goblinCount=");
+        if (goblinCount > 0) {sbArea.append("goblins=");
             sbArea.append(textGenerator(goblinCount,goblinBonus1,goblinBonus2,goblinBonus3));
+            bonusClassList.add("Goblins");
         }
-        if (humanCount > 0) {sbArea.append("humanCount=");
+        if (humanCount > 0) {sbArea.append("humans=");
             sbArea.append(textGenerator(humanCount,humanBonus1,humanBonus2,humanBonus3));
+            bonusClassList.add("Humans");
         }
-        if (nagaCount > 0) {sbArea.append("nagaCount=");
+        if (nagaCount > 0) {sbArea.append("nagas=");
             sbArea.append(textGenerator(nagaCount,nagaBonus1,nagaBonus2,nagaBonus3));
+            bonusClassList.add("Nagas");
         }
-        if (ogreCount > 0) {sbArea.append("ogreCount=");
+        if (ogreCount > 0) {sbArea.append("ogres=");
             sbArea.append(textGenerator(ogreCount,ogreBonus1,ogreBonus2,ogreBonus3));
+            bonusClassList.add("Ogres");
         }
-        if (orcCount > 0) {sbArea.append("orcCount=");
+        if (orcCount > 0) {sbArea.append("orcs=");
             sbArea.append(textGenerator(orcCount,orcBonus1,orcBonus2,orcBonus3));
+            bonusClassList.add("Orcs");
         }
-        if (trollCount > 0) {sbArea.append("trollCount=");
+        if (trollCount > 0) {sbArea.append("trolls=");
             sbArea.append(textGenerator(trollCount,trollBonus1,trollBonus2,trollBonus3));
+            bonusClassList.add("Trolls");
         }
-        if (undeadCount > 0) {sbArea.append("undeadCount=");
+        if (undeadCount > 0) {sbArea.append("undeads=");
             sbArea.append(textGenerator(undeadCount,undeadBonus1,undeadBonus2,undeadBonus3));
+            bonusClassList.add("Undead");
         }
 //        if (sbArea.length()>0) sbArea.append("***************************\n");
 
-        if (assassinCount > 0) {sbArea.append("assassinCount =");
+        if (assassinCount > 0) {sbArea.append("assassins=");
             sbArea.append(textGenerator(assassinCount,assassinBonus1,assassinBonus2,assassinBonus3));
+            bonusClassList.add("Assassins");
         }
-        if (demonhunterCount > 0) {sbArea.append("demonhunterCount =");
+        if (demonhunterCount > 0) {sbArea.append("demonhunters=");
             sbArea.append(textGenerator(demonhunterCount,demonhunterBonus1,demonhunterBonus2,demonhunterBonus3));
+            bonusClassList.add("Demon Hunters");
         }
-        if (druidCount > 0) {sbArea.append("druidCount =");
+        if (druidCount > 0) {sbArea.append("druids=");
             sbArea.append(textGenerator(druidCount,druidBonus1,druidBonus2,druidBonus3));
+            bonusClassList.add("Druids");
         }
-        if (hunterCount > 0) {sbArea.append("hunterCount =");
+        if (hunterCount > 0) {sbArea.append("hunters=");
             sbArea.append(textGenerator(hunterCount,hunterBonus1,hunterBonus2,hunterBonus3));
+            bonusClassList.add("Hunters");
         }
-        if (knightCount > 0) {sbArea.append("knightCount =");
+        if (knightCount > 0) {sbArea.append("knights=");
             sbArea.append(textGenerator(knightCount,knightBonus1,knightBonus2,knightBonus3));
+            bonusClassList.add("Knights");
         }
-        if (mageCount > 0) {sbArea.append("mageCount =");
+        if (mageCount > 0) {sbArea.append("mages=");
             sbArea.append(textGenerator(mageCount,mageBonus1,mageBonus2,mageBonus3));
+            bonusClassList.add("Mages");
         }
-        if (mechCount > 0) {sbArea.append("mechCount =");
+        if (mechCount > 0) {sbArea.append("mechs=");
             sbArea.append(textGenerator(mechCount,mechBonus1,mechBonus2,mechBonus3));
+            bonusClassList.add("Mechs");
         }
-        if (shamanCount > 0) {sbArea.append("shamanCount =");
+        if (shamanCount > 0) {sbArea.append("shamans=");
             sbArea.append(textGenerator(shamanCount,shamanBonus1,shamanBonus2,shamanBonus3));
+            bonusClassList.add("Shamans");
         }
-        if (warlockCount > 0) {sbArea.append("warlockCount =");
+        if (warlockCount > 0) {sbArea.append("warlocks=");
             sbArea.append(textGenerator(warlockCount, warlockBonus1,warlockBonus2,warlockBonus3));
+            bonusClassList.add("Warlocks");
         }
-        if (warriorCount > 0) { sbArea.append("warriorCount =");
+        if (warriorCount > 0) { sbArea.append("warriors=");
             sbArea.append(textGenerator(warriorCount, warriorBonus1,warriorBonus2,warriorBonus3));
+            bonusClassList.add("Warriors");
         }
         return sbArea.toString();
     }
