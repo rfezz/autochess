@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="mainBorderPane" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="testingagain">
+    <top>
+        <MenuBar>
+
+        </MenuBar>
+    </top>
+    <left>
+        <GridPane>
+            <ListView fx:id="boardView" GridPane.rowIndex="0" GridPane.columnIndex="0"  onMouseClicked="#test344">
+
+            </ListView>
+            <ListView fx:id="benchView" GridPane.rowIndex="1" GridPane.columnIndex="0" onMouseClicked="#test444">
+
+            </ListView>
+        </GridPane>
+
+    </left>
+    <right>
+        <TextArea fx:id="sickArea" style="background-color: black; color:#fff;"></TextArea>
+    </right>
+    <bottom>
+        <GridPane>
+            <Button fx:id="oneCost" text="Add One Cost Piece" GridPane.rowIndex="0" GridPane.columnIndex="0">
+
+            </Button>
+            <Button fx:id="twoCost" text="Add Two Cost Piece" GridPane.rowIndex="0" GridPane.columnIndex="1">
+
+
+            </Button>
+            <Button fx:id="threeCost" text="Add Three Cost Piece" GridPane.rowIndex="0" GridPane.columnIndex="2">
+
+
+            </Button>
+            <Button fx:id="fourCost" text="Add Four Cost Piece" GridPane.rowIndex="0" GridPane.columnIndex="3">
+
+
+            </Button>
+            <Button fx:id="fiveCost" text="Add Five Cost Piece" GridPane.rowIndex="0" GridPane.columnIndex="4">
+
+
+            </Button>
+            <Button fx:id="removeButton" text="Remove Piece" GridPane.rowIndex="0" GridPane.columnIndex="5"
+            onAction="#removeFromList">
+
+
+            </Button>
+            <Button fx:id="swapButton" text="Swap Selection" GridPane.rowIndex="0" GridPane.columnIndex="6"
+            onAction="#swapFromLists">
+
+
+            </Button>
+        </GridPane>
+    </bottom>
+
+
+</BorderPane>
